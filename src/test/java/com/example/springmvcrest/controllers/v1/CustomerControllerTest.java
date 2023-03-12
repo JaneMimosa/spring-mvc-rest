@@ -59,7 +59,7 @@ public class CustomerControllerTest extends TestCase {
 
         when(customerService.getAllCustomers()).thenReturn(customerDTOS);
 
-        mockMvc.perform(get("/api/v1/customers/")
+        mockMvc.perform(get(CustomerController.BASE_URL)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.customers", hasSize(2)));
@@ -74,7 +74,7 @@ public class CustomerControllerTest extends TestCase {
 
         when(customerService.getCustomerById(anyLong())).thenReturn(customer1);
 
-        mockMvc.perform(get("/api/v1/customers/1")
+        mockMvc.perform(get(CustomerController.BASE_URL + "/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.lastName", equalTo(NAME)));
@@ -88,11 +88,11 @@ public class CustomerControllerTest extends TestCase {
         CustomerDTO returnDTO = new CustomerDTO();
         returnDTO.setFirstName(customer1.getFirstName());
         returnDTO.setLastName(customer1.getLastName());
-        returnDTO.setCustomerUrl("/api/v1/customers/1");
+        returnDTO.setCustomerUrl(CustomerController.BASE_URL + "/1");
 
         when(customerService.createNewCustomer(customer1)).thenReturn(returnDTO);
 
-        mockMvc.perform(post("/api/v1/customers/")
+        mockMvc.perform(post(CustomerController.BASE_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(customer1)))
                 .andExpect(status().isCreated())
@@ -111,17 +111,17 @@ public class CustomerControllerTest extends TestCase {
         CustomerDTO returnDTO = new CustomerDTO();
         returnDTO.setFirstName(customer1.getFirstName());
         returnDTO.setLastName(customer1.getLastName());
-        returnDTO.setCustomerUrl("/api/v1/customers/1");
+        returnDTO.setCustomerUrl(CustomerController.BASE_URL + "/1");
 
         when(customerService.saveCustomerByDTO(anyLong(), any(CustomerDTO.class))).thenReturn(returnDTO);
 
-        mockMvc.perform(put("/api/v1/customers/1")
+        mockMvc.perform(put(CustomerController.BASE_URL + "/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(customer1)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName", equalTo("Joe")))
                 .andExpect(jsonPath("$.lastName", equalTo(NAME)))
-                .andExpect(jsonPath("$.customer_url", equalTo("/api/v1/customers/1")));
+                .andExpect(jsonPath("$.customer_url", equalTo( CustomerController.BASE_URL +"/1")));
     }
 
     @Test
@@ -132,23 +132,23 @@ public class CustomerControllerTest extends TestCase {
         CustomerDTO returnDTO = new CustomerDTO();
         returnDTO.setFirstName(customer1.getFirstName());
         returnDTO.setLastName("Smith");
-        returnDTO.setCustomerUrl("/api/v1/customers/1");
+        returnDTO.setCustomerUrl(CustomerController.BASE_URL +"/1");
 
         when(customerService.patchCustomer(anyLong(), any(CustomerDTO.class))).thenReturn(returnDTO);
 
-        mockMvc.perform(patch("/api/v1/customers/1")
+        mockMvc.perform(patch(CustomerController.BASE_URL +"/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(customer1)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName", equalTo("Joe")))
                 .andExpect(jsonPath("$.lastName", equalTo("Smith")))
-                .andExpect(jsonPath("$.customer_url", equalTo("/api/v1/customers/1")));
+                .andExpect(jsonPath("$.customer_url", equalTo(CustomerController.BASE_URL +"/1")));
     }
 
     @Test
     public void testDeleteCustomer() throws Exception {
 
-        mockMvc.perform(delete("/api/v1/customers/1")
+        mockMvc.perform(delete(CustomerController.BASE_URL +"/1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 

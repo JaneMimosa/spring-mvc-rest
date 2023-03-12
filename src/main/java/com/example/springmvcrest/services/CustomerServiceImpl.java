@@ -2,6 +2,7 @@ package com.example.springmvcrest.services;
 
 import com.example.springmvcrest.api.v1.mapper.CustomerMapper;
 import com.example.springmvcrest.api.v1.model.CustomerDTO;
+import com.example.springmvcrest.controllers.v1.CustomerController;
 import com.example.springmvcrest.domain.Customer;
 import com.example.springmvcrest.repositories.CustomerRepository;
 
@@ -24,7 +25,7 @@ public class CustomerServiceImpl implements CustomerService{
                 .stream()
                 .map(customer -> {
                     CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
-                    customerDTO.setCustomerUrl("/api/v1/customers/" + customer.getId());
+                    customerDTO.setCustomerUrl(CustomerController.BASE_URL + customer.getId());
                     return customerDTO;
                 })
                 .collect(Collectors.toList());
@@ -45,7 +46,7 @@ public class CustomerServiceImpl implements CustomerService{
     private CustomerDTO saveAndReturnDTO(Customer customer) {
         Customer savedCustomer = customerRepository.save(customer);
         CustomerDTO returnDto = customerMapper.customerToCustomerDTO(savedCustomer);
-        returnDto.setCustomerUrl("/api/v1/customer/" + savedCustomer.getId());
+        returnDto.setCustomerUrl(CustomerController.BASE_URL + savedCustomer.getId());
         return returnDto;
     }
     @Override
@@ -66,7 +67,7 @@ public class CustomerServiceImpl implements CustomerService{
             }
 
             CustomerDTO returnDTO = customerMapper.customerToCustomerDTO(customerRepository.save(customer));
-            returnDTO.setCustomerUrl("/api/v1/customer/" + id);
+            returnDTO.setCustomerUrl(CustomerController.BASE_URL + id);
             return returnDTO;
         }).orElseThrow(RuntimeException::new);
     }

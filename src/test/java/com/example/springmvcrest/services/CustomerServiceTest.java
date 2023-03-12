@@ -2,6 +2,7 @@ package com.example.springmvcrest.services;
 
 import com.example.springmvcrest.api.v1.mapper.CustomerMapper;
 import com.example.springmvcrest.api.v1.model.CustomerDTO;
+import com.example.springmvcrest.controllers.v1.CustomerController;
 import com.example.springmvcrest.domain.Customer;
 import com.example.springmvcrest.repositories.CustomerRepository;
 import junit.framework.TestCase;
@@ -78,7 +79,7 @@ public class CustomerServiceTest extends TestCase {
 
         //then
         assertEquals(customerDTO.getFirstName(), savedDto.getFirstName());
-        assertEquals("/api/v1/customer/1", savedDto.getCustomerUrl());
+        assertEquals(CustomerController.BASE_URL + "/1", savedDto.getCustomerUrl());
     }
 
     @Test
@@ -99,6 +100,6 @@ public class CustomerServiceTest extends TestCase {
 
         //then
         assertEquals(customerDTO.getFirstName(), savedDto.getFirstName());
-        assertEquals("/api/v1/customer/1", savedDto.getCustomerUrl());
+        assertEquals(CustomerController.BASE_URL + "/1", savedDto.getCustomerUrl());
     }
 }
