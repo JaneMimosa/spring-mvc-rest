@@ -2,7 +2,6 @@ package com.example.springmvcrest.controllers.v1;
 
 import com.example.springmvcrest.api.v1.model.CustomerDTO;
 import com.example.springmvcrest.api.v1.model.CustomerListDTO;
-import com.example.springmvcrest.repositories.CategoryRepository;
 import com.example.springmvcrest.services.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -12,12 +11,9 @@ import org.springframework.web.bind.annotation.*;
 public class CustomerController {
     public static final String BASE_URL = "/api/v1/customers";
     private final CustomerService customerService;
-    private final CategoryRepository categoryRepository;
 
-    public CustomerController(CustomerService customerService,
-                              CategoryRepository categoryRepository) {
+    public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
-        this.categoryRepository = categoryRepository;
     }
 
     @GetMapping
@@ -28,7 +24,7 @@ public class CustomerController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public CustomerDTO getCustomersById(@PathVariable Long id) {
+    public CustomerDTO getCustomerById(@PathVariable Long id) {
         return customerService.getCustomerById(id);
     }
 
