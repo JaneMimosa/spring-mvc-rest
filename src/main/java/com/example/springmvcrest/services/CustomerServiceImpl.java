@@ -6,10 +6,12 @@ import com.example.springmvcrest.controllers.v1.CustomerController;
 import com.example.springmvcrest.domain.Customer;
 import com.example.springmvcrest.exceptions.ResourceNotFoundException;
 import com.example.springmvcrest.repositories.CustomerRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class CustomerServiceImpl implements CustomerService{
 
     CustomerMapper customerMapper;
