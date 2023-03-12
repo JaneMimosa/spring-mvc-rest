@@ -2,8 +2,10 @@ package com.example.springmvcrest.bootstrap;
 
 import com.example.springmvcrest.domain.Category;
 import com.example.springmvcrest.domain.Customer;
+import com.example.springmvcrest.domain.Vendor;
 import com.example.springmvcrest.repositories.CategoryRepository;
 import com.example.springmvcrest.repositories.CustomerRepository;
+import com.example.springmvcrest.repositories.VendorRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -12,10 +14,13 @@ public class Bootstrap implements CommandLineRunner {
 
     private CategoryRepository categoryRepository;
     private CustomerRepository customerRepository;
+    private final VendorRepository vendorRepository;
 
-    public Bootstrap(CategoryRepository categoryRepository, CustomerRepository customerRepository) {
+    public Bootstrap(CategoryRepository categoryRepository, CustomerRepository customerRepository,
+                     VendorRepository vendorRepository) {
         this.categoryRepository = categoryRepository;
         this.customerRepository = customerRepository;
+        this.vendorRepository = vendorRepository;
     }
 
     @Override
@@ -23,6 +28,7 @@ public class Bootstrap implements CommandLineRunner {
 
         loadCategories();
         loadCustomers();
+        loadVendors();
     }
 
 
@@ -68,4 +74,16 @@ public class Bootstrap implements CommandLineRunner {
 
         System.out.println("Customers Loaded: " + customerRepository.count());
     }
+    private void loadVendors() {
+        Vendor vendor1 = new Vendor();
+        vendor1.setName("Vendor 1");
+        vendorRepository.save(vendor1);
+
+        Vendor vendor2 = new Vendor();
+        vendor2.setName("Vendor 2");
+        vendorRepository.save(vendor2);
+
+        System.out.println("Vendors Loaded: " + vendorRepository.count());
+    }
+
 }
